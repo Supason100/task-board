@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task Board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+      background: linear-gradient(180deg, #f6f7fb 0%, #eef0f7 100%);
+      color: #1a1d29;
+      line-height: 1.5;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+      background: linear-gradient(135deg, #5b4fe8, #4a6cf7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    h2 {
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #6b7085;
+      margin-top: 40px;
+      margin-bottom: 16px;
+    }
+
+    form {
+      background: white;
+      padding: 28px;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(74, 108, 247, 0.08), 0 1px 2px rgba(0,0,0,0.04);
+      border: 1px solid #eef0f7;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7085;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      display: block;
+      width: 100%;
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border: 1.5px solid #e4e6ef;
+      border-radius: 10px;
+      font-size: 14.5px;
+      font-family: inherit;
+      color: #1a1d29;
+      background: #fbfbfd;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #a3a7bd;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #4a6cf7;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.1);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    button {
+      padding: 12px 22px;
+      background: linear-gradient(135deg, #5b4fe8, #4a6cf7);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14.5px;
+      font-weight: 700;
+      font-family: inherit;
+      margin-right: 8px;
+      margin-top: 4px;
+      transition: transform 0.1s ease, box-shadow 0.15s ease;
+      box-shadow: 0 2px 8px rgba(74, 108, 247, 0.3);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(74, 108, 247, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .task {
+      background: white;
+      border: 1px solid #eef0f7;
+      padding: 20px;
+      margin-bottom: 14px;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(20, 20, 43, 0.04);
+      transition: box-shadow 0.15s ease, transform 0.15s ease;
+    }
+
+    .task:hover {
+      box-shadow: 0 6px 20px rgba(20, 20, 43, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .task strong {
+      font-size: 15.5px;
+      font-weight: 700;
+      text-transform: capitalize;
+      color: #1a1d29;
+    }
+
+    .task em {
+      color: #6b7085;
+      font-style: normal;
+      font-size: 13px;
+    }
+
+    .task > strong:first-child {
+      color: #4a6cf7;
+    }
+
+    #filterCategory {
+      max-width: 320px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Task Board</h1>
+
+  <h2>Post a Task</h2>
+  <form id="taskForm">
+    <input type="text" id="name" placeholder="Your name" required>
+    <input type="text" id="phone" placeholder="Phone number" required>
+   <select id="category" required>
+    <option value="" disabled selected>Select a category</option>
+  <optgroup label="Home Services">
+    <option value="plumbing">Plumbing</option>
+    <option value="electrical">Electrical</option>
+    <option value="cleaning">Cleaning</option>
+    <option value="laundry">Laundry</option>
+    <option value="gardening">Gardening</option>
+    <option value="carpentry">Carpentry</option>
+    <option value="painting">Painting</option>
+    <option value="pest control">Pest Control</option>
+    <option value="ac repair/maintenance">AC Repair/Maintenance</option>
+    <option value="generator repair/maintenance">Generator Repair/Maintenance</option>
+    <option value="furniture assembly">Furniture Assembly</option>
+    <option value="interior design">Interior Design</option>
+  </optgroup>
+
+  <optgroup label="Electronics Repair">
+    <option value="mobile repair">Mobile Repair</option>
+    <option value="laptop repair">Laptop Repair</option>
+    <option value="pc repair">PC Repair</option>
+    <option value="camera repair">Camera Repair</option>
+    <option value="tv repair">TV Repair</option>
+    <option value="dvd player repair">DVD Player Repair</option>
+    <option value="home appliance repair">Home Appliance Repair</option>
+    <option value="printer repair">Printer Repair</option>
+  </optgroup>
+
+  <optgroup label="Auto Services">
+    <option value="auto repair/maintenance">Auto Repair/Maintenance</option>
+    <option value="tire service">Tire Service</option>
+    <option value="car wash">Car Wash</option>
+    <option value="towing">Towing</option>
+    <option value="motorcycle repair">Motorcycle Repair</option>
+    <option value="car electrician">Car Electrician</option>
+    <option value="panel beating/spray painting">Panel Beating/Spray Painting</option>
+  </optgroup>
+
+  <optgroup label="Logistics & Delivery">
+    <option value="package delivery">Package Delivery</option>
+    <option value="moving/relocation">Moving/Relocation</option>
+    <option value="dispatch rider">Dispatch Rider</option>
+    <option value="truck/haulage">Truck/Haulage</option>
+    <option value="errand running">Errand Running</option>
+  </optgroup>
+
+  <optgroup label="Beauty & Personal Care">
+    <option value="hairdressing">Hairdressing</option>
+    <option value="barbing">Barbing</option>
+    <option value="makeup">Makeup</option>
+    <option value="nail technician">Nail Technician</option>
+    <option value="massage therapy">Massage Therapy</option>
+    <option value="spa services">Spa Services</option>
+  </optgroup>
+
+  <optgroup label="Fashion & Tailoring">
+    <option value="tailoring">Tailoring</option>
+    <option value="fashion design">Fashion Design</option>
+    <option value="shoemaking/repair">Shoemaking/Repair</option>
+    <option value="bag repair">Bag Repair</option>
+  </optgroup>
+
+  <optgroup label="Events & Catering">
+    <option value="catering">Catering</option>
+    <option value="photography">Photography</option>
+    <option value="videography">Videography</option>
+    <option value="event planning">Event Planning</option>
+    <option value="dj services">DJ Services</option>
+    <option value="mc/anchoring">MC/Anchoring</option>
+    <option value="decoration">Decoration</option>
+  </optgroup>
+
+  <optgroup label="Education">
+    <option value="tutoring">Tutoring</option>
+    <option value="music lessons">Music Lessons</option>
+    <option value="language lessons">Language Lessons</option>
+    <option value="computer training">Computer Training</option>
+  </optgroup>
+
+  <optgroup label="Health & Wellness">
+    <option value="fitness training">Fitness Training</option>
+    <option value="nursing/caregiving">Nursing/Caregiving</option>
+    <option value="physiotherapy">Physiotherapy</option>
+  </optgroup>
+
+  <optgroup label="Professional Services">
+    <option value="graphic design">Graphic Design</option>
+    <option value="web design/development">Web Design/Development</option>
+    <option value="accounting">Accounting</option>
+    <option value="legal services">Legal Services</option>
+    <option value="writing/editing">Writing/Editing</option>
+  </optgroup>
+
+  <optgroup label="Other">
+    <option value="other">Other</option>
+  </optgroup>
+</select>
+    <textarea id="description" placeholder="Describe the task" required></textarea>
+    <input type="text" id="location" placeholder="Location (e.g. Wuse 2)" required>
+    <input type="text" id="landmark" placeholder="Nearby landmark for meetup (e.g. Near Banex Plaza)">
+    <button type="submit">Post Task</button>
+  </form>
+
+  <h2>Open Tasks</h2>
+  <label for="filterCategory">Filter by category:</label>
+<select id="filterCategory">
+  <option value="">All Categories</option>
+  <option value="plumbing">Plumbing</option>
+  <option value="electrical">Electrical</option>
+  <option value="cleaning">Cleaning</option>
+  <option value="laundry">Laundry</option>
+  <option value="gardening">Gardening</option>
+  <option value="carpentry">Carpentry</option>
+  <option value="painting">Painting</option>
+  <option value="pest control">Pest Control</option>
+  <option value="ac repair/maintenance">AC Repair/Maintenance</option>
+  <option value="generator repair/maintenance">Generator Repair/Maintenance</option>
+  <option value="furniture assembly">Furniture Assembly</option>
+  <option value="interior design">Interior Design</option>
+  <option value="mobile repair">Mobile Repair</option>
+  <option value="laptop repair">Laptop Repair</option>
+  <option value="pc repair">PC Repair</option>
+  <option value="camera repair">Camera Repair</option>
+  <option value="tv repair">TV Repair</option>
+  <option value="dvd player repair">DVD Player Repair</option>
+  <option value="home appliance repair">Home Appliance Repair</option>
+  <option value="printer repair">Printer Repair</option>
+  <option value="auto repair/maintenance">Auto Repair/Maintenance</option>
+  <option value="tire service">Tire Service</option>
+  <option value="car wash">Car Wash</option>
+  <option value="towing">Towing</option>
+  <option value="motorcycle repair">Motorcycle Repair</option>
+  <option value="car electrician">Car Electrician</option>
+  <option value="panel beating/spray painting">Panel Beating/Spray Painting</option>
+  <option value="package delivery">Package Delivery</option>
+  <option value="moving/relocation">Moving/Relocation</option>
+  <option value="dispatch rider">Dispatch Rider</option>
+  <option value="truck/haulage">Truck/Haulage</option>
+  <option value="errand running">Errand Running</option>
+  <option value="hairdressing">Hairdressing</option>
+  <option value="barbing">Barbing</option>
+  <option value="makeup">Makeup</option>
+  <option value="nail technician">Nail Technician</option>
+  <option value="massage therapy">Massage Therapy</option>
+  <option value="spa services">Spa Services</option>
+  <option value="tailoring">Tailoring</option>
+  <option value="fashion design">Fashion Design</option>
+  <option value="shoemaking/repair">Shoemaking/Repair</option>
+  <option value="bag repair">Bag Repair</option>
+  <option value="catering">Catering</option>
+  <option value="photography">Photography</option>
+  <option value="videography">Videography</option>
+  <option value="event planning">Event Planning</option>
+  <option value="dj services">DJ Services</option>
+  <option value="mc/anchoring">MC/Anchoring</option>
+  <option value="decoration">Decoration</option>
+  <option value="tutoring">Tutoring</option>
+  <option value="music lessons">Music Lessons</option>
+  <option value="language lessons">Language Lessons</option>
+  <option value="computer training">Computer Training</option>
+  <option value="fitness training">Fitness Training</option>
+  <option value="nursing/caregiving">Nursing/Caregiving</option>
+  <option value="physiotherapy">Physiotherapy</option>
+  <option value="graphic design">Graphic Design</option>
+  <option value="web design/development">Web Design/Development</option>
+  <option value="accounting">Accounting</option>
+  <option value="legal services">Legal Services</option>
+  <option value="writing/editing">Writing/Editing</option>
+  <option value="other">Other</option>
+</select>
+  <div id="taskList"></div>
+
+  <script>
+    const form = document.getElementById('taskForm');
+    const taskList = document.getElementById('taskList');
+
+ async function loadTasks() {
+  const category = document.getElementById('filterCategory').value;
+  const url = category ? `/tasks?category=${encodeURIComponent(category)}` : '/tasks';
+  const res = await fetch(url);
+  const tasks = await res.json();
+  taskList.innerHTML = '';
+  tasks.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'task';
+    div.innerHTML = `
+  <strong>${t.category}</strong> — ${t.location}<br>
+  ${t.landmark ? `<em>Meetup landmark: ${t.landmark}</em><br>` : ''}
+  ${t.description}<br>
+  <em>Posted by ${t.name}, ${t.phone}</em><br>
+  <strong>Status: ${t.status}</strong><br>
+  ${t.status === 'open' ? `<button onclick="markTaken(${t.id})">Mark as Taken</button>` : ''}
+  <button onclick='editTask(${JSON.stringify(t)})'>Edit</button>
+  <button onclick="deleteTask(${t.id})">Delete</button>
+`;
+    taskList.appendChild(div);
+  });
+}
+
+let editingId = null;
+
+function editTask(t) {
+  editingId = t.id;
+  document.getElementById('name').value = t.name;
+  document.getElementById('phone').value = t.phone;
+  document.getElementById('category').value = t.category;
+  document.getElementById('description').value = t.description;
+  document.getElementById('location').value = t.location;
+  document.getElementById('landmark').value = t.landmark;
+  document.querySelector('#taskForm button[type="submit"]').textContent = 'Update Task';
+  window.scrollTo(0, 0);
+}
+async function markTaken(id) {
+  await fetch(`/tasks/${id}/taken`, { method: 'POST' });
+  loadTasks();
+}
+
+async function deleteTask(id) {
+  await fetch(`/tasks/${id}`, { method: 'DELETE' });
+  loadTasks();
+}
+
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const task = {
+  name: document.getElementById('name').value,
+  phone: document.getElementById('phone').value,
+  category: document.getElementById('category').value,
+  description: document.getElementById('description').value,
+  location: document.getElementById('location').value,
+  landmark: document.getElementById('landmark').value,
+};
+
+      if (editingId) {
+        await fetch(`/tasks/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(task),
+        });
+        editingId = null;
+        document.querySelector('#taskForm button[type="submit"]').textContent = 'Post Task';
+      } else {
+        await fetch('/tasks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(task),
+        });
+      }
+
+      form.reset();
+      loadTasks();
+    });
+
+    loadTasks();
+    document.getElementById('filterCategory').addEventListener('change', loadTasks);
+  </script>
+</body>
+</html>
