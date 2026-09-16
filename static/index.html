@@ -200,6 +200,33 @@
   <script>
     const form = document.getElementById('taskForm');
     const taskList = document.getElementById('taskList');
+    const categoryIcons = {
+  'plumbing': '🔧', 'electrical': '💡', 'cleaning': '🧹', 'laundry': '👕',
+  'gardening': '🌱', 'carpentry': '🪚', 'painting': '🎨', 'pest control': '🐜',
+  'ac repair/maintenance': '❄️', 'generator repair/maintenance': '⚡',
+  'furniture assembly': '🪑', 'interior design': '🏠',
+  'mobile repair': '📱', 'laptop repair': '💻', 'pc repair': '🖥️',
+  'camera repair': '📷', 'tv repair': '📺', 'dvd player repair': '📀',
+  'home appliance repair': '🔌', 'printer repair': '🖨️',
+  'auto repair/maintenance': '🚗', 'tire service': '🛞', 'car wash': '🚿',
+  'towing': '🚛', 'motorcycle repair': '🏍️', 'car electrician': '🔋',
+  'panel beating/spray painting': '🎨',
+  'package delivery': '📦', 'moving/relocation': '🚚', 'dispatch rider': '🏍️',
+  'truck/haulage': '🚛', 'errand running': '🏃',
+  'hairdressing': '💇', 'barbing': '💈', 'makeup': '💄',
+  'nail technician': '💅', 'massage therapy': '💆', 'spa services': '🧖',
+  'tailoring': '🧵', 'fashion design': '👗', 'shoemaking/repair': '👞',
+  'bag repair': '👜',
+  'catering': '🍽️', 'photography': '📸', 'videography': '🎥',
+  'event planning': '🎉', 'dj services': '🎧', 'mc/anchoring': '🎤',
+  'decoration': '🎈',
+  'tutoring': '📚', 'music lessons': '🎵', 'language lessons': '🗣️',
+  'computer training': '⌨️',
+  'fitness training': '💪', 'nursing/caregiving': '🩺', 'physiotherapy': '🧘',
+  'graphic design': '🖌️', 'web design/development': '🌐', 'accounting': '📊',
+  'legal services': '⚖️', 'writing/editing': '✍️',
+  'other': '📌'
+};
 
  async function loadTasks() {
   const category = document.getElementById('filterCategory').value;
@@ -210,8 +237,8 @@
   tasks.forEach(t => {
     const div = document.createElement('div');
     div.className = 'task';
-    div.innerHTML = `
-  <strong>${t.category}</strong> — ${t.location}<br>
+        div.innerHTML = `
+  <span class="task-icon">${categoryIcons[t.category] || '📌'}</span><strong>${t.category}</strong> — ${t.location}<br>
   ${t.landmark ? `<em>Meetup landmark: ${t.landmark}</em><br>` : ''}
   ${t.description}<br>
   <em>Posted by ${t.name}, ${t.phone}</em><br>
