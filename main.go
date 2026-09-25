@@ -18,6 +18,8 @@ type Task struct {
 	Location    string `json:"location"`
 	Landmark    string `json:"landmark"`
 	Status      string `json:"status"`
+	Latitude    float64 `json:"latitude"`
+	Longitude   float64 `json:"longitude"`
 	CreatedAt   string `json:"created_at"`
 }
 
@@ -54,6 +56,8 @@ func createTable() {
 		location TEXT,
 		landmark TEXT,
 		status TEXT DEFAULT 'open',
+		latitude REAL,
+		longitude REAL,
 		created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 	);`
 	_, err := db.Exec(query)
@@ -80,10 +84,10 @@ func getTasks(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if category != "" {
-		rows, err = db.Query("SELECT id, name, phone, category, description, location, landmark, status, created_at FROM tasks WHERE category = ? ORDER BY created_at DESC", category)
+		rows, err = db.Query("SELECT id, name, phone, category, description, location, landmark, status, latitude, longitude, created_at FROM tasks WHERE category = ? ORDER BY created_at DESC", category)
 	} else {
-		rows, err = db.Query("SELECT id, name, phone, category, description, location, landmark, status, created_at FROM tasks ORDER BY created_at DESC")
-	}
+		rows, err = db.Query("SELECT id, name, phone, category, description, location, landmark, status, latitude, longitude, created_at FROM tasks ORDER BY created_at DESC")
+	}	
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -94,7 +98,7 @@ func getTasks(w http.ResponseWriter, r *http.Request) {
 	var tasks []Task
 	for rows.Next() {
 		var t Task
-		rows.Scan(&t.ID, &t.Name, &t.Phone, &t.Category, &t.Description, &t.Location, &t.Landmark, &t.Status, &t.CreatedAt)
+		rows.Scan(&t.ID, &t.Name, &t.Phone, &t.Category, &t.Description, &t.Location, &t.Landmark, &t.Status, &t.Latitude, &t.Longitude, &t.CreatedAt)
 		tasks = append(tasks, t)
 	}
 
@@ -111,8 +115,8 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result, err := db.Exec(
-		"INSERT INTO tasks (name, phone, category, description, location, landmark, status) VALUES (?, ?, ?, ?, ?, ?, 'open')",
-		t.Name, t.Phone, t.Category, t.Description, t.Location, t.Landmark,
+			"INSERT INTO tasks (name, phone, category, description, location, landmark, status, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?, 'open', ?, ?)",
+		t.Name, t.Phone, t.Category, t.Description, t.Location, t.Landmark, t.Latitude, t.Longitude,	
 	)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -163,8 +167,8 @@ func updateTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, err = db.Exec(
-		"UPDATE tasks SET name = ?, phone = ?, category = ?, description = ?, location = ?, landmark = ? WHERE id = ?",
-		t.Name, t.Phone, t.Category, t.Description, t.Location, t.Landmark, id,
+			"UPDATE tasks SET name = ?, phone = ?, category = ?, description = ?, location = ?, landmark = ?, latitude = ?, longitude = ? WHERE id = ?",
+		t.Name, t.Phone, t.Category, t.Description, t.Location, t.Landmark, t.Latitude, t.Longitude, id,
 	)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
