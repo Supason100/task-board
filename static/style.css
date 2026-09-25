@@ -168,6 +168,16 @@ button:active {
   color: #1a1d29;
 }
 
+.category-tag {
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.category-tag:hover {
+  color: #4a6cf7;
+  text-decoration: underline;
+}
+
 .task em {
   color: #6b7085;
   font-style: normal;

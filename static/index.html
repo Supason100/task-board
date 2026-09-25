@@ -238,7 +238,7 @@
     const div = document.createElement('div');
     div.className = 'task';
         div.innerHTML = `
-  <span class="task-icon">${categoryIcons[t.category] || '📌'}</span><strong>${t.category}</strong> — ${t.location}<br>
+    <span class="task-icon">${categoryIcons[t.category] || '📌'}</span><strong class="category-tag" onclick="filterByCategory('${t.category}')">${t.category}</strong> — ${t.location}<br>
   ${t.landmark ? `<em>Meetup landmark: ${t.landmark}</em><br>` : ''}
   ${t.description}<br>
   <em>Posted by ${t.name}, ${t.phone}</em><br>
@@ -250,7 +250,11 @@
     taskList.appendChild(div);
   });
 }
-
+function filterByCategory(category) {
+  document.getElementById('filterCategory').value = category;
+  loadTasks();
+  document.getElementById('filterCategory').scrollIntoView({ behavior: 'smooth' });
+}
 let editingId = null;
 
 function editTask(t) {
